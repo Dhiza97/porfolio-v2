@@ -15,7 +15,7 @@ function wantsHtml(request) {
 function unauthorizedResponse(request, message) {
 	if (wantsHtml(request)) {
 		const url = new URL("/admin?error=invalid_credentials", request.url);
-		return NextResponse.redirect(url);
+		return NextResponse.redirect(url, 303);
 	}
 
 	return NextResponse.json({ error: message }, { status: 401 });
@@ -80,6 +80,7 @@ export async function POST(request) {
 
 	if (action === "logout") {
 		return NextResponse.redirect(new URL("/admin", request.url), {
+			status: 303,
 			headers: {
 				"Set-Cookie": clearSessionCookie(),
 			},
@@ -107,8 +108,11 @@ export async function POST(request) {
 	}
 
 	const token = signToken({ role: "admin", username: adminUsername });
+	const requestedNext = String(formData.get("next") || "").trim();
+	const destination = requestedNext.startsWith("/") ? requestedNext : "/admin";
 
-	return NextResponse.redirect(new URL("/admin", request.url), {
+	return NextResponse.redirect(new URL(destination, request.url), {
+		status: 303,
 		headers: {
 			"Set-Cookie": createSessionCookie(token),
 		},

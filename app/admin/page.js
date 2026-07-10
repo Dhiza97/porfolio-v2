@@ -43,6 +43,7 @@ export default async function AdminPage({ searchParams }) {
 					</p>
 				)}
 				<form action="/api/auth" method="post" className="mt-8 max-w-md space-y-4 card-soft p-4">
+					{params?.next && <input type="hidden" name="next" value={params.next} />}
 					<input
 						className="input"
 						name="username"
