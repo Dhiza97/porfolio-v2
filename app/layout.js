@@ -2,6 +2,7 @@ import { Bebas_Neue, Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { RouteTransition } from "@/app/components/portfolio/motion";
 import SiteNav from "@/app/components/portfolio/site-nav";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
           <SiteNav />
         </div>
         <RouteTransition>{children}</RouteTransition>
+        <Analytics />
       </body>
     </html>
   );
