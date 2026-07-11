@@ -6,11 +6,30 @@ import { getCloudinary } from "@/app/lib/cloudinary";
 import { connectDB } from "@/app/lib/db";
 import Project from "@/app/models/Project";
 
+export const dynamic = "force-dynamic";
+
+function normalizeList(value) {
+	if (Array.isArray(value)) {
+		return value.map((item) => String(item || "").trim()).filter(Boolean);
+	}
+
+	return String(value || "")
+		.split(/\n|,/)
+		.map((item) => item.trim())
+		.filter(Boolean);
+}
+
 const updateSchema = z
 	.object({
 		title: z.string().trim().min(2).max(100).optional(),
 		description: z.string().trim().min(12).max(1000).optional(),
+		role: z.string().trim().max(120).optional().or(z.literal("")),
+		duration: z.string().trim().max(80).optional().or(z.literal("")),
+		challenge: z.string().trim().max(2000).optional().or(z.literal("")),
+		solution: z.string().trim().max(2000).optional().or(z.literal("")),
+		outcome: z.string().trim().max(2000).optional().or(z.literal("")),
 		tags: z.array(z.string().trim().min(1).max(24)).max(12).optional(),
+		galleryUrls: z.array(z.string().url()).max(12).optional(),
 		featured: z.boolean().optional(),
 		imageUrl: z.string().url().optional(),
 		imagePublicId: z.string().trim().min(4).optional(),
@@ -89,12 +108,9 @@ export async function PUT(request, { params }) {
 			tags:
 				body?.tags === undefined
 					? undefined
-					: Array.isArray(body.tags)
-						? body.tags
-						: String(body.tags || "")
-								.split(",")
-								.map((tag) => tag.trim())
-								.filter(Boolean),
+					: normalizeList(body.tags),
+			galleryUrls:
+				body?.galleryUrls === undefined ? undefined : normalizeList(body.galleryUrls),
 			featured:
 				body?.featured === undefined ? undefined : Boolean(body.featured),
 			order: body?.order === undefined ? undefined : Number(body.order),
@@ -118,6 +134,11 @@ export async function PUT(request, { params }) {
 			id,
 			{
 				...parsed.data,
+				role: parsed.data.role || undefined,
+				duration: parsed.data.duration || undefined,
+				challenge: parsed.data.challenge || undefined,
+				solution: parsed.data.solution || undefined,
+				outcome: parsed.data.outcome || undefined,
 				liveUrl: parsed.data.liveUrl || undefined,
 				repoUrl: parsed.data.repoUrl || undefined,
 			},

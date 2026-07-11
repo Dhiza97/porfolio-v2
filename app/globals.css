@@ -178,6 +178,52 @@ a {
     background-color var(--motion-duration-fast) var(--motion-ease-standard);
 }
 
+.rich-text > *:first-child {
+  margin-top: 0;
+}
+
+.rich-text > *:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text p,
+.rich-text ul,
+.rich-text ol,
+.rich-text blockquote,
+.rich-text pre {
+  margin: 0.75rem 0;
+}
+
+.rich-text ul,
+.rich-text ol {
+  padding-left: 1.2rem;
+}
+
+.rich-text ul {
+  list-style: disc;
+}
+
+.rich-text ol {
+  list-style: decimal;
+}
+
+.rich-text strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rich-text em {
+  font-style: italic;
+}
+
+.rich-text u {
+  text-decoration: underline;
+}
+
+.rich-text a {
+  text-decoration: underline;
+}
+
 .motion-media-zoom {
   transform: scale(1);
   transform-origin: center center;

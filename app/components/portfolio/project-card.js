@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { MOTION } from "@/app/components/portfolio/motion-tokens";
 
@@ -49,14 +50,16 @@ export default function ProjectCard({ project }) {
     >
       <div className="group relative aspect-video overflow-hidden border-b border-(--border) bg-(--bg3)">
         {project.imageUrl ? (
-          <Image
-            src={project.imageUrl}
-            alt={project.title || "Project image"}
-            fill
-            unoptimized
-            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-            className="motion-media-zoom object-cover"
-          />
+          <Link href={`/projects/${project._id}`}>
+            <Image
+              src={project.imageUrl}
+              alt={project.title || "Project image"}
+              fill
+              unoptimized
+              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+              className="motion-media-zoom object-cover"
+            />
+          </Link>
         ) : (
           <div className="flex h-full items-center justify-center p-6">
             <span className="font-ital text-3xl text-(--text-muted)">No image</span>
@@ -67,7 +70,9 @@ export default function ProjectCard({ project }) {
       <div className="flex min-h-64 flex-1 flex-col p-4">
         {isPopulated ? (
           <>
-            <h2 className="line-clamp-2 font-headline text-4xl leading-none">{project.title}</h2>
+            <h2 className="line-clamp-2 font-headline text-4xl leading-none">
+              <Link href={`/projects/${project._id}`}>{project.title}</Link>
+            </h2>
             {project.tags?.length > 0 && (
               <p className="mt-2 text-[11px] uppercase tracking-[0.15em] text-(--text-muted)">
                 {project.tags.join(" / ")}
@@ -94,6 +99,9 @@ export default function ProjectCard({ project }) {
             )}
 
             <div className={`${expanded ? "mt-4" : "mt-auto pt-4"} flex flex-wrap gap-2`}>
+              <Link className="btn" href={`/projects/${project._id}`}>
+                View Project
+              </Link>
               {project.liveUrl && (
                 <a className="btn" href={project.liveUrl} target="_blank" rel="noreferrer">
                   Live

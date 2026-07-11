@@ -79,6 +79,11 @@ export default async function HomePage() {
                   <p className="mt-4 text-sm leading-7 text-(--text-sub) line-clamp-4">
                     {project.description}
                   </p>
+                  <div className="mt-5">
+                    <Link className="btn" href={`/projects/${project._id}`}>
+                      View Project
+                    </Link>
+                  </div>
                 </>
               ) : (
                 <>

@@ -4,7 +4,10 @@ export const metadata = {
   title: "Contact",
 };
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }) {
+  const params = await searchParams;
+  const status = params?.status;
+
   return (
     <main className="frame-shell pb-12">
 
@@ -20,13 +23,13 @@ export default function ContactPage() {
           </p>
 
           <div className="mt-8 grid gap-3">
-            <a className="btn" href="mailto:hello@example.com">
-              hello@example.com
+            <a className="btn" href="mailto:the.josephgarba@gmail.com">
+              the.josephgarba@gmail.com
             </a>
-            <a className="btn" href="https://github.com" target="_blank" rel="noreferrer">
+            <a className="btn" href="https://github.com/dhiza97" target="_blank" rel="noreferrer">
               GitHub
             </a>
-            <a className="btn" href="https://www.linkedin.com" target="_blank" rel="noreferrer">
+            <a className="btn" href="https://www.linkedin.com/in/joseph-garba-70b34914a" target="_blank" rel="noreferrer">
               LinkedIn
             </a>
           </div>
@@ -35,10 +38,20 @@ export default function ContactPage() {
         <Reveal className="p-8 md:p-10" delay={0.06}>
           <div className="card-soft p-5">
             <p className="label mb-4">Quick Message</p>
-            <form className="grid gap-4" action="#" method="post">
-              <input className="input" type="text" placeholder="Your name" />
-              <input className="input" type="email" placeholder="Your email" />
-              <textarea className="input" rows={6} placeholder="Tell me about your project" />
+            {status === "sent" && (
+              <p className="mb-4 text-sm text-(--text-sub)">
+                Message sent successfully. I will get back to you shortly.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="mb-4 text-sm text-(--text-sub)">
+                Message failed to send. Please retry or use the email button.
+              </p>
+            )}
+            <form className="grid gap-4" action="/api/contact" method="post">
+              <input className="input" name="name" type="text" placeholder="Your name" required />
+              <input className="input" name="email" type="email" placeholder="Your email" required />
+              <textarea className="input" name="message" rows={6} placeholder="Tell me about your project" required />
               <button className="btn" type="submit">
                 Send Message
               </button>

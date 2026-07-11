@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "@/app/components/portfolio/motion";
 
 export const metadata = {
@@ -25,15 +26,15 @@ export default function AboutPage() {
         </Reveal>
 
         <Reveal className="p-8 md:p-10" delay={0.06}>
-          <div className="card-soft flex aspect-3/4 items-center justify-center">
-            <div className="text-center">
-              <div className="mx-auto flex h-20 w-20 items-center justify-center border border-(--border) font-headline text-5xl">
-                JG
-              </div>
-              <p className="mt-4 text-[11px] uppercase tracking-[0.15em] text-(--text-muted)">
-                Portrait placeholder
-              </p>
-            </div>
+          <div className="card-soft relative aspect-3/4 overflow-hidden border border-(--border)">
+            <Image
+              src="/about-img.png"
+              alt="Portrait of Joseph Garba"
+              fill
+              priority
+              className="object-cover grayscale contrast-110"
+              sizes="(min-width: 768px) 50vw, 100vw"
+            />
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-px bg-(--border) border border-(--border)">
